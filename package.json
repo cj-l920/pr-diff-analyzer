@@ -1,0 +1,34 @@
+{
+  "name": "pr-diff-analyzer",
+  "version": "1.0.0",
+  "description": "Intelligent PR diff analysis agent for security scanning, breaking change detection, and AI-powered code review",
+  "main": "pr_analyzer.py",
+  "scripts": {
+    "test": "pytest",
+    "lint": "flake8 pr_analyzer.py",
+    "format": "black pr_analyzer.py",
+    "typecheck": "mypy pr_analyzer.py"
+  },
+  "keywords": [
+    "github",
+    "pull-request",
+    "code-review",
+    "security",
+    "static-analysis",
+    "ai",
+    "openai",
+    "cli",
+    "automation",
+    "devops"
+  ],
+  "author": "cj-l920",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cj-l920/pr-diff-analyzer.git"
+  },
+  "bugs": {
+    "url": "https://github.com/cj-l920/pr-diff-analyzer/issues"
+  },
+  "homepage": "https://github.com/cj-l920/pr-diff-analyzer#readme"
+}
