@@ -1,0 +1,55 @@
+name: PR Diff Analysis
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+    paths:
+      - '**.py'
+      - '**.js'
+      - '**.ts'
+      - '**.java'
+      - '**.go'
+      - '**.rb'
+
+jobs:
+  analyze:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write
+      issues: write
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      
+      - name: Install dependencies
+        run: |
+          pip install requests
+      
+      - name: Download PR Analyzer
+        run: |
+          curl -L -o pr_analyzer.py https://raw.githubusercontent.com/your-org/pr-diff-analyzer/main/pr_analyzer.py
+      
+      - name: Run PR Analysis
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+        run: |
+          python pr_analyzer.py \
+            --owner ${{ github.repository_owner }} \
+            --repo ${{ github.event.repository.name }} \
+            --pr ${{ github.event.pull_request.number }} \
+            --post-comment \
+            --output summary
+      
+      - name: Check for critical issues
+        if: failure()
+        run: |
+          echo "::warning::Critical issues detected in PR. Please review the analysis comment."
